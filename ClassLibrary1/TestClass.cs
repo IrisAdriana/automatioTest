@@ -1,5 +1,6 @@
 ﻿using FirstTestSolution.Practice.ContactUs;
 using FirstTestSolution.Practice.Menu;
+using FirstTestSolution.Steps.AutomationPractice.Navigation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FirstTestSolution
@@ -24,32 +26,52 @@ namespace FirstTestSolution
         //ctor y doble tab para crear constructor
 
         IWebDriver webDriver;
-        public Class1()
-        {
-            webDriver = new ChromeDriver(@"C:\Users\ASUS\seleniumWebDriver");      //options es para que pueda iniciar de modo incognito o no
-        }
-        // una funcion siempre va a retornar un valor
-        // un metodo no retorna un valor (void)
+        NavigationSteps navigationSteps; 
+        
 
-        [TestMethod]
-        public void MyFirstTest()
+        [TestMethod, TestCategory("ContactUs")]
+        public void ContactFormIsSentCorrectly()
         {
-            // abrir el browser para el primer test
-            webDriver.Navigate().GoToUrl("http://automationpractice.com/index.php");
-            //id = contact-link  --> para redireccionar a una ruta
-            MenuPage menuPage = new MenuPage(webDriver);
-            menuPage.ClickContactUs();
+            
+            ContactUs contactUs = navigationSteps.NavigationToContacUs();
+            //explicit waiter(no recomendable)
+            Thread.Sleep(TimeSpan.FromSeconds(10));     //va a esperar 10 segundos y luego continuar con el test 
 
-            ContactUs contactUs = new ContactUs(webDriver);
+            //explicit waiters with expected conditions(install selenium extras)
+
+
             contactUs.FillContactUsForm(ContactUs.Options.ByText,"Customer service","iris@gmail.com","45612", @"C:\Users\ASUS\fileTest.txt", "Hello");
             string actualMessage = contactUs.GetConfirmationMessage();
-
-            //seccion de codigo que valida si esta funcionando correctamente:
-            // --> Your message has been successfully sent to our team
-            // xpath para mensajes de alerta --> p[@class='alert alert-success']
-
             string expectedMessage = "Your message has been successfully sent to our team.";
+
             Assert.AreEqual(expectedMessage,actualMessage);
+        }
+
+        [TestInitialize]
+        public void Setup()
+        {
+            webDriver = new ChromeDriver(@"C:\Users\ASUS\seleniumWebDriver");      //options es para que pueda iniciar de modo incognito o no
+            //implicid waiters
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30); //tiempo de espera antes de que un control nos de la excepcion de que no encontro el control
+            webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120); //tiempo de espera antes de que no encuentre la pagina
+
+
+
+            navigationSteps = new NavigationSteps(webDriver);
+            webDriver.Navigate().GoToUrl("http://automationpractice.com/index.php");
+        }
+
+        [TestCleanup]
+        public void TearDown()
+        {
+            webDriver.Close();
+            webDriver.Quit();
+        }
+
+        [TestMethod,TestCategory("Contact Invalid Data")]
+        public void ContactFormIsNotSentWithInvalidData()
+        {
+
         }
         /* [TestMethod]
          public void MySecondTest()
@@ -80,12 +102,8 @@ namespace FirstTestSolution
              string actualMessage = confirmationLabel.Text;
              string expectedMessage = "Invalid email address.";
              Assert.AreEqual(expectedMessage, actualMessage);
-         }
-
-         [TestMethod]
-         public void LoginTest()
-         {
-
          }*/
+
+
     }
 }

@@ -20,6 +20,8 @@ namespace FirstTestSolution.Practice.Menu
             //id = contact-link  --> para redireccionar a una ruta
             IWebElement contactUsButton = webDriver.FindElement(By.Id("contact-link"));      //by permite seleccionar por Id u otro
             contactUsButton.Click();
+            //ContactUs contactUs = new ContactUs(webDriver);
+            //return contactUs;
         }
     }
 }
