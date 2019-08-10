@@ -60,7 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BaseDriver.cs" />
+    <Compile Include="Base\BasePage.cs" />
+    <Compile Include="Base\BaseStep.cs" />
+    <Compile Include="initializer\Init.cs" />
     <Compile Include="PageObject\AutomationPractice\ContactUs\ContactUs.cs" />
+    <Compile Include="PageObject\AutomationPractice\HomePage.cs" />
     <Compile Include="PageObject\AutomationPractice\Menu\MenuPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AutomationPractice\Navigation\NavigationSteps.cs" />

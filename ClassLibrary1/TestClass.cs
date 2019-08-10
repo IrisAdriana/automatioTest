@@ -1,4 +1,5 @@
-﻿using FirstTestSolution.Practice.ContactUs;
+﻿using ClassLibrary1.Hooks;
+using FirstTestSolution.Practice.ContactUs;
 using FirstTestSolution.Practice.Menu;
 using FirstTestSolution.Steps.AutomationPractice.Navigation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +17,7 @@ namespace FirstTestSolution
     
 {
     [TestClass]
-    public class Class1
+    public class Class1: Hook
     {
 
         //framework base : c#
@@ -25,7 +26,7 @@ namespace FirstTestSolution
 
         //ctor y doble tab para crear constructor
 
-        IWebDriver webDriver;
+        
         NavigationSteps navigationSteps; 
         
 
@@ -50,29 +51,34 @@ namespace FirstTestSolution
         [TestInitialize]
         public void Setup()
         {
-            webDriver = new ChromeDriver(@"C:\Users\ASUS\seleniumWebDriver");      //options es para que pueda iniciar de modo incognito o no
+            /*ChromeOptions options = new ChromeOptions();
+            options.AddArgument("--start-maximized");       //pantalla maximizada
+            options.AddArgument("--incognito");
+            options.AddArgument("--headless");      //no visualiza la pagina, realiza el proceso por debajo
+            
+            webDriver = new ChromeDriver(@"C:\Users\ASUS\seleniumWebDriver",options);      //options es para que pueda iniciar de modo incognito o no
+            
             //implicid waiters
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30); //tiempo de espera antes de que un control nos de la excepcion de que no encontro el control
             webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120); //tiempo de espera antes de que no encuentre la pagina
-
-
-
-            navigationSteps = new NavigationSteps(webDriver);
-            webDriver.Navigate().GoToUrl("http://automationpractice.com/index.php");
+            */
+            navigationSteps = new NavigationSteps();
+            //webDriver.Navigate().GoToUrl("http://automationpractice.com/index.php");
         }
 
-        [TestCleanup]
+        /*[TestCleanup]
         public void TearDown()
         {
             webDriver.Close();
             webDriver.Quit();
         }
+        */
+        
+        //[TestMethod,TestCategory("Contact Invalid Data")]
+        //public void ContactFormIsNotSentWithInvalidData()
+        //{
 
-        [TestMethod,TestCategory("Contact Invalid Data")]
-        public void ContactFormIsNotSentWithInvalidData()
-        {
-
-        }
+        //}
         /* [TestMethod]
          public void MySecondTest()
          {

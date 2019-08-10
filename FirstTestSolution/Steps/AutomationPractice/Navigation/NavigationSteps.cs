@@ -1,4 +1,5 @@
-﻿using FirstTestSolution.Practice.ContactUs;
+﻿using FirstTestSolution.Base;
+using FirstTestSolution.Practice.ContactUs;
 using FirstTestSolution.Practice.Menu;
 using OpenQA.Selenium;
 using System;
@@ -9,20 +10,15 @@ using System.Threading.Tasks;
 
 namespace FirstTestSolution.Steps.AutomationPractice.Navigation
 {
-    public class NavigationSteps
+    public class NavigationSteps:BaseStep
     {
-        IWebDriver webDriver;
-
-        public NavigationSteps(IWebDriver webDriver)
-        {
-            this.webDriver = webDriver;
-        }
 
         public ContactUs NavigationToContacUs()
         {
-            MenuPage menuPage = new MenuPage(webDriver);
+            NavigateToInitialSite();
+            MenuPage menuPage = new MenuPage();
             menuPage.ClickContactUs();
-            ContactUs contactUs = new ContactUs(webDriver);
+            ContactUs contactUs = new ContactUs();
             return contactUs;
 
         }
